@@ -1,0 +1,12 @@
+# macOS Finder settings
+**/.DS_Store
+
+# R and RStudio session files
+**/.Rhistory
+**/.Rapp.history
+**/.RData
+**/.Rproj.user/
+*_files/
+*_files/
+/data/
+
