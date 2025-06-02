@@ -1,14 +1,11 @@
-.libPaths(c(normalizePath("~/R/libs"), .libPaths()))
-
 #devtools::install_github('mandymejia/templateICAr', ref='8.0')
-library(templateICAr) #0.8.0
-library(ciftiTools) #0.16.0
+library(templateICAr) #0.10.0
+library(ciftiTools) #0.18.0
 #### REINSTALL THIS ONE #library(fMRItools) #0.5.0
 
 #### ANI CHANGE next two lines
 # ciftiTools.setOption('wb_path', '/Applications')
-#ciftiTools.setOption('wb_path', '/Applications/workbench/bin_macosxub/')
-ciftiTools.setOption('wb_path', '~/workbench/bin_rh_linux64/wb_command')
+ciftiTools.setOption('wb_path', '~/') #redefining workbench path to run it on RED
 
 #library(matrixStats) #colVars
 library(reshape2) #1.4.4
@@ -19,6 +16,7 @@ library(RColorBrewer) #1.1-3
 library(abind) #1.4-5
 library(viridis) #0.6.5
 library(dplyr) #1.1.4
-library(fMRItools)
+library(fMRItools) #main
+library(manipulateWidget) #0.11.1
 
-source('sim_funs.R')
+source('~/Documents/Github/FC-TemplateICA-paper/simulation/sim_funs.R')
