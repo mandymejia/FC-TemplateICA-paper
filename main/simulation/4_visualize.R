@@ -1,4 +1,4 @@
-main_dir <- '~/Documents/Github/FC-TemplateICA-paper/simulation/'
+main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
 #main_dir <- '~/Dropbox (Brown)/FCTemplateICA/simulation/'
 setwd(main_dir)
 source('0_setup.R')
@@ -191,7 +191,8 @@ MAE_df$type <- ifelse(MAE_df$edge %in% c('V1-V2','V1-V3','V2-V3'),
 MAE_df$type <- factor(MAE_df$type, 
                       levels = c('Visual-Visual', 'Visual-Motor', 'DMN-Visuomotor'),
                       labels = c('Visual-Visual (strong)', 'Visual-Motor (moderate)', 'DMN-Visuomotor (weak)'))
-  
+
+# Creates Fig. 1
 pdf(file.path('plots','MAE_FC_lines.pdf'), height=5, width=9)
 print(ggplot(MAE_df, aes(x=algo, y=(MAE), color=abs(FC_val), group=edge)) + 
   geom_line() + geom_point(aes(shape = edge), size=2) +

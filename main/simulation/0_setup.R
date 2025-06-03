@@ -1,7 +1,9 @@
 .libPaths(c(normalizePath("~/R/libs"), .libPaths()))
 
-#devtools::install_github('mandymejia/templateICAr', ref='8.0')
-library(templateICAr) #0.8.0
+# install.packages("remotes")
+# remotes::install_version("templateICAr", version = "0.10.0") # To install specific versions.
+
+library(templateICAr) #0.10.0
 library(ciftiTools) #0.16.0
 #### REINSTALL THIS ONE #library(fMRItools) #0.5.0
 
@@ -22,3 +24,8 @@ library(dplyr) #1.1.4
 library(fMRItools)
 
 source('sim_funs.R')
+
+# library(manipulateWidget)
+# library(rmarkdown)
+# install.packages("rmarkdown") # ??? module loadp pandoc
+# install.packages("manipulateWidget")
