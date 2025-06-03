@@ -10,3 +10,4 @@
 *_files/
 /data/
 __pycache__/
+*_dropbox*
