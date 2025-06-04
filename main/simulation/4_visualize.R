@@ -38,8 +38,8 @@ pal_FC <- palfun(100-1)
 
 load(file = file.path('results', 'test_set_results.RData')) #S_true, S_est, template_mean, Sdev_true, Sdev_est, FC_true, FC_est, FC_mean, FC_LB, FC_UB, comptime, numiter
 
-#first 5 subjects only
-for(ii in 1:5){
+#first 3 subjects only
+for(ii in 1:3){
   
   print(paste0('~~~~~~~~~~~~~~~~ SUBJECT ',ii,' ~~~~~~~~~~~~~~~~'))
   
@@ -59,8 +59,8 @@ load(file = file.path(result_dir, 'test_set_results.RData')) #S_true, S_est, tem
 ##############################################################################
 ### VISUALIZE IC AND FC ESTIMATES (first 5 subjects)
 
-#first 5 subjects only
-for(ii in 1:5){
+#first 3 subjects only 
+for(ii in 1:3){
 
   print(paste0('~~~~~~~~~~~~~~~~ SUBJECT ',ii,' ~~~~~~~~~~~~~~~~'))
 
@@ -68,35 +68,21 @@ for(ii in 1:5){
   for(aa in 1:(num_alg+1)){
     alg <- gsub('_','',algos2[aa])
     IC_est_aa <- newdata_xifti(xii, S_est[,,ii,aa])
-    #IC estimates
-    plot(IC_est_aa, idx=1:Q, zlim=c(-0.5,0.5),
-         title=paste0('IC Estimate (', alg, ')'),
-         fname=file.path('images','examples',paste0('testsubj',ii,'_S_',alg)))
     #Deviation estimates
-    plot(IC_est_aa - template_mean, idx=1:Q, zlim=c(-0.25,0.25), #%# Creates (part of) Fig D.5
+    plot(IC_est_aa - template_mean, idx=4, zlim=c(-0.25,0.25), #%# Creates Fig D.5
          title=paste0('Deviation Estimate (', alg, ')'),
          fname=file.path('images','examples',paste0('testsubj',ii,'_Sdev_',alg)))
   }
 
   #FC Estimates
   zlim_cor <- c(-0.6,0.6)
-  pdf(file.path('plots',paste0('testsubj',ii,'FC.pdf')), width=5,height=5)
+  pdf(file.path('plots',paste0('testsubj',ii,'FC.pdf')), width=5,height=5) #%# Creates Fig. D.7
   fMRItools::plot_FC(FC_true[,,ii], zlim=zlim_cor, cols = pal_FC, lines=1:5, title='True FC', diag_val = NA)
   for(aa in c(1:(num_alg+2))) {
     alg <- algos3[aa]
     fMRItools::plot_FC(FC_est[,,ii,aa], zlim=zlim_cor, cols = pal_FC, lines=1:5, title=paste0('FC Estimate (',alg,')'), diag_val = NA)
   }
   dev.off()
-
-  #FC Deviations
-  pdf(file.path('plots',paste0('testsubj',ii,'FCdev.pdf')), width=5,height=5)
-  fMRItools::plot_FC(FC_true[,,ii] - FC_mean, zlim=zlim_cor/2, cols = pal_FC, title='True FC Deviation', lines=1:5)
-  for(aa in c(1:(num_alg+2))) {
-    alg <- algos3[aa]
-    fMRItools::plot_FC(FC_est[,,ii,aa] - FC_mean, zlim=zlim_cor/2, cleg_ticks_by = 0.1, cols = pal_FC, title=paste0('FC Deviation (',alg,')'), lines=1:5)
-  }
-  dev.off()
-
 } #end loop over test subjects
 
 ##############################################################################
@@ -111,12 +97,7 @@ for(aa in 1:(num_alg+1)){
   MAE_aa <- (apply(abs(S_est[,,,aa] - S_true), c(1,2), median, na.rm=TRUE)) 
   plot(newdata_xifti(xii, MAE_aa), zlim=c(0, 0.05), idx=1:5,
        title=paste0('MAE (', alg, ')'), fname=file.path('images','MAE',paste0('MAE_',alg)))
-  if(aa %in% 2:3)
-    plot(newdata_xifti(xii, (MAE_aa - MAE_tICA)/MAE_tICA), zlim=c(-0.5, 0.5), idx=1:5,
-         title=paste0('%Diff in MAE vs. tICA (', alg, ')'), fname=file.path('images','MAE',paste0('MAE_diff_',alg)))
-  if(aa %in% 1:3)
-    plot(newdata_xifti(xii, (MAE_aa - MAE_DR)/MAE_DR), zlim=c(-0.5, 0.5), idx=1:5,
-         title=paste0('%Diff in MAE vs. DR (', alg, ')'), fname=file.path('images','MAE',paste0('MAE_diff2_',alg)))
+
 }
 
 #MAE of FC (including DR and DR2) -- using median rather than mean due to outlier subjects
@@ -192,16 +173,6 @@ MAE_df$type <- ifelse(MAE_df$edge %in% c('V1-V2','V1-V3','V2-V3'),
 MAE_df$type <- factor(MAE_df$type, 
                       levels = c('Visual-Visual', 'Visual-Motor', 'DMN-Visuomotor'),
                       labels = c('Visual-Visual (strong)', 'Visual-Motor (moderate)', 'DMN-Visuomotor (weak)'))
-
-# Creates Fig. 1
-pdf(file.path('plots','MAE_FC_lines.pdf'), height=5, width=9)
-print(ggplot(MAE_df, aes(x=algo, y=(MAE), color=abs(FC_val), group=edge)) + 
-  geom_line() + geom_point(aes(shape = edge), size=2) +
-  scale_shape_manual(name = 'FC Pair', values = c(15:17,0:6)) +
-  scale_color_gradient2(name = 'FC Magnitude', low='black',mid='blue',high='hotpink',midpoint = 0.3) +
-  facet_wrap( ~ type, scales = "free", nrow=1) +
-  theme_few() + xlab('Algorithm') + ylab('Median Absolute Error'))
-dev.off()
 
 ##############################################################################
 ### FC CREDIBLE INTERVALS
@@ -311,6 +282,7 @@ FC_pairs_UT <- FC_pairs[upper.tri(FC_pairs)]
 MAE_FC_df <- NULL
 for(aa in 1:num_alg){
   alg <- algos[aa]
+  #%# Creates Fig. D.8
   pdf(paste0('plots/MAE_FC_byduration_',algos[aa],'.pdf'), height=5, width=5.5)
   for(dd in 1:num_dur){
     MAE_ad <- sqrt(apply((FC_est[,,,aa,dd] - FC_true)^2, c(1,2), median, na.rm=TRUE))

@@ -46,23 +46,25 @@ n <- 500 + 50 #500 training subjects (use to re-estimate template) + 50 test sub
 
 if(first_run){
   subjICs <- array(dim=c(N, Q, n))
+  subjdev <- array(dim=c(N, Q, 3)) #for plotting only
   tmean_mat <- as.matrix(template_mean)
   tvar_mat <- as.matrix(template_var)
   for(ii in 1:n){
     print(ii)
     for(q in 1:Q){
-      dev_iq <- rnorm(N, rep(0,N), sqrt(tvar_mat[,q])) #generate subject effects #%# rnorm() so doesn't generate the same plots on the paper.
+      dev_iq <- rnorm(N, rep(0,N), sqrt(tvar_mat[,q])) #generate subject effects
       dev_iq <- smooth_xifti(newdata_xifti(GICA, dev_iq), surf_FWHM = FWHM)
       subjICs[,q,ii] <- scale(tmean_mat[,q] + as.matrix(dev_iq), scale=FALSE)
+      if(ii %in% 1:3) subjdev[,q,ii] <- dev_iq
     }
     if(ii %in% 1:3){
       subjICs_xifti <- newdata_xifti(GICA, subjICs[,,ii])
-      dev_xifti <- newdata_xifti(GICA, subjICs[,,ii] - tmean_mat)
-      plot(subjICs_xifti, idx=1:5, zlim=c(-0.5,0.5),  #%# Creates (part of) Fig. D.1, not reproducble to the paper as it uses rnorm()
+      dev_xifti <- newdata_xifti(GICA, subjdev[,,ii])
+      plot(subjICs_xifti, idx=1:5, zlim=c(-0.5,0.5),
            title = paste0('Subject ',ii,', IC ', 1:5),
            fname = paste0('exampleICs/subject',ii,'_IC', 1:5),
            hemisphere = 'left')
-      plot(dev_xifti, idx=1:5, zlim=c(-0.1,0.1), #%# Creates (part of) Fig. D.1
+      plot(dev_xifti, idx=1:5, zlim=c(-0.1,0.1),
            title = paste0('Subject ',ii,', Deviation ', 1:5),
            fname = paste0('exampleICs/subject',ii,'_dev', 1:5),
            hemisphere = 'left')
