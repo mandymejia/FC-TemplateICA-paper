@@ -6,8 +6,10 @@
 **/.Rapp.history
 **/.RData
 **/.Rproj.user/
-*_files/
-*_files/
+# *_files/
+# *_files/
 /data/
 __pycache__/
 *_dropbox*
+*_proper*
+extra.txt

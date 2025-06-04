@@ -1,5 +1,3 @@
-#main_dir <- '~/Dropbox/RESEARCH/FCTemplateICA/simulation/'
-#main_dir <- '~/Dropbox (Brown)/FCTemplateICA/simulation/'
 main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
 setwd(main_dir)
 source('0_setup.R')
@@ -53,14 +51,14 @@ if(first_run){
   for(ii in 1:n){
     print(ii)
     for(q in 1:Q){
-      dev_iq <- rnorm(N, rep(0,N), sqrt(tvar_mat[,q])) #generate subject effects
+      dev_iq <- rnorm(N, rep(0,N), sqrt(tvar_mat[,q])) #generate subject effects #%# rnorm() so doesn't generate the same plots on the paper.
       dev_iq <- smooth_xifti(newdata_xifti(GICA, dev_iq), surf_FWHM = FWHM)
       subjICs[,q,ii] <- scale(tmean_mat[,q] + as.matrix(dev_iq), scale=FALSE)
     }
     if(ii %in% 1:3){
       subjICs_xifti <- newdata_xifti(GICA, subjICs[,,ii])
       dev_xifti <- newdata_xifti(GICA, subjICs[,,ii] - tmean_mat)
-      plot(subjICs_xifti, idx=1:5, zlim=c(-0.5,0.5),
+      plot(subjICs_xifti, idx=1:5, zlim=c(-0.5,0.5),  #%# Creates (part of) Fig. D.1, not reproducble to the paper as it uses rnorm()
            title = paste0('Subject ',ii,', IC ', 1:5),
            fname = paste0('exampleICs/subject',ii,'_IC', 1:5),
            hemisphere = 'left')

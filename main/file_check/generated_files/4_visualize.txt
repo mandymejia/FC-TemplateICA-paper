@@ -1,0 +1,47 @@
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_DR_IC 1.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_DR_IC 2.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_DR_IC 3.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_DR_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_DR_IC 5.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB1_IC 1.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB1_IC 2.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB1_IC 3.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB1_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB1_IC 5.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB2_IC 1.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB2_IC 2.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB2_IC 3.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB2_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_VB2_IC 5.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_tICA_IC 1.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_tICA_IC 2.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_tICA_IC 3.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_tICA_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/MAE/MAE_tICA_IC 5.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj1_Sdev_DR_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj1_Sdev_VB1_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj1_Sdev_VB2_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj1_Sdev_tICA_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj1_Sdev_true_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj2_Sdev_DR_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj2_Sdev_VB1_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj2_Sdev_VB2_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj2_Sdev_tICA_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj2_Sdev_true_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj3_Sdev_DR_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj3_Sdev_VB1_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj3_Sdev_VB2_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj3_Sdev_tICA_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/images/examples/testsubj3_Sdev_true_IC 4.png
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/FC_CIs.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/MAE_FC.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/MAE_FC_byduration.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/MAE_FC_byduration_DR.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/MAE_FC_byduration_VB1.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/MAE_FC_byduration_VB2.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/MAE_FC_byduration_tICA.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/MAE_FC_diff_DR.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/MAE_FC_diff_tICA.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/testsubj1FC.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/testsubj2FC.pdf
+/geode2/home/u110/zzahid/Quartz/Documents/Github/FC-TemplateICA-paper/main/simulation/plots/testsubj3FC.pdf

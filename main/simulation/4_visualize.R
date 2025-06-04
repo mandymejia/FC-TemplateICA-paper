@@ -1,5 +1,4 @@
 main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
-#main_dir <- '~/Dropbox (Brown)/FCTemplateICA/simulation/'
 setwd(main_dir)
 source('0_setup.R')
 
@@ -47,7 +46,8 @@ for(ii in 1:5){
   #True IC maps
   S_true_xifti <- newdata_xifti(xii, S_true[,,ii])
   plot(S_true_xifti, idx=1:Q, zlim=c(-0.5,0.5), title='True IC', fname=paste0('images/examples/testsubj',ii,'_S_true'))
-  plot(S_true_xifti - template_mean, idx=1:Q, zlim=c(-0.25,0.25), title='True Deviation', fname=paste0('images/testsubj',ii,'_Sdev_true'))
+  #%# Creates (part of) Fig D.5
+  plot(S_true_xifti - template_mean, idx=1:Q, zlim=c(-0.25,0.25), title='True Deviation', fname=paste0('images/examples/testsubj',ii,'_Sdev_true')) ### VISUALIZE GROUND TRUTH ICs (first 5 subjects)
 }
 
 CI_width_VB1 <- CI_width_VB2 <- CI_coverage_VB1 <- CI_coverage_VB2 <- NULL
@@ -73,7 +73,7 @@ for(ii in 1:5){
          title=paste0('IC Estimate (', alg, ')'),
          fname=file.path('images','examples',paste0('testsubj',ii,'_S_',alg)))
     #Deviation estimates
-    plot(IC_est_aa - template_mean, idx=1:Q, zlim=c(-0.25,0.25),
+    plot(IC_est_aa - template_mean, idx=1:Q, zlim=c(-0.25,0.25), #%# Creates (part of) Fig D.5
          title=paste0('Deviation Estimate (', alg, ')'),
          fname=file.path('images','examples',paste0('testsubj',ii,'_Sdev_',alg)))
   }
@@ -103,6 +103,7 @@ for(ii in 1:5){
 ### VISUALIZE ACCURACY MEASURES 
 
 #MAE of IC Spatial Maps -- using median rather than mean due to outlier subjects (high motion?)
+#%# Creates Fig. D.6
 MAE_tICA <- sqrt(apply((S_est[,,,1] - S_true)^2, c(1,2), median, na.rm=TRUE))
 MAE_DR <- sqrt(apply((S_est[,,,4] - S_true)^2, c(1,2), median, na.rm=TRUE))
 for(aa in 1:(num_alg+1)){
@@ -119,7 +120,7 @@ for(aa in 1:(num_alg+1)){
 }
 
 #MAE of FC (including DR and DR2) -- using median rather than mean due to outlier subjects
-pdf(file.path('plots','MAE_FC.pdf'), height=5, width=5.5)
+pdf(file.path('plots','MAE_FC.pdf'), height=5, width=5.5) #%# Creates (part of) Fig. 1
 for(aa in 1:(num_alg+2)){
   alg <- algos3[aa]
   MAE_aa <- (apply(abs(FC_est[,,,aa] - FC_true), c(1,2), median, na.rm=TRUE)) 
@@ -129,7 +130,7 @@ for(aa in 1:(num_alg+2)){
 dev.off()
 
 #Change in MAE of FC
-pdf(file.path('plots','MAE_FC_diff_DR.pdf'), height=5, width=5.5)
+pdf(file.path('plots','MAE_FC_diff_DR.pdf'), height=5, width=5.5) #%# Creates (part of) Fig. 1
 MAE_DR <- apply(abs(FC_est[,,,4] - FC_true), c(1,2), median, na.rm=TRUE)
 for(aa in c(1:num_alg)){
   alg <- gsub('_','',algos[aa])
@@ -149,7 +150,7 @@ dev.off()
 # }
 # dev.off()
 
-pdf(file.path('plots','MAE_FC_diff_tICA.pdf'), height=5, width=5.5)
+pdf(file.path('plots','MAE_FC_diff_tICA.pdf'), height=5, width=5.5) #%# Creates (part of) Fig. 1
 MAE_tICA <- apply(abs(FC_est[,,,1] - FC_true), c(1,2), median, na.rm=TRUE)
 for(aa in 2:3){
   alg <- gsub('_','',algos[aa])
@@ -240,7 +241,7 @@ df_FC_10_true0 <- df_FC_10[,c('subject','edge','row','col','FC_true0')]; df_FC_1
 names(df_FC_10_true0)[5] <- 'FC_true'
 df_FC_10_true <- rbind(df_FC_10_true, df_FC_10_true0)
 
-pdf(file.path('plots','FC_CIs.pdf'), height=6, width=6)
+pdf(file.path('plots','FC_CIs.pdf'), height=6, width=6) #%# This creates Fig. D.9
 print(ggplot(df_FC_10, aes(x = subject, color=algo)) +
   #geom_point(aes(y = FC_true), size=2, shape=8) +
   #geom_point(aes(y = FC_est)) +
@@ -334,7 +335,7 @@ MAE_FC_df$Algorithm <- factor(MAE_FC_df$Algorithm,
                               levels = c('VB1','VB2','tICA','DR'),
                               labels = c('FC-tICA (VB1)','FC-tICA (VB2)','tICA','DR'))
 
-pdf('plots/MAE_FC_byduration.pdf', width=6, height=3.5)
+pdf('plots/MAE_FC_byduration.pdf', width=6, height=3.5) #%# Creates Fig. 2
 ggplot(MAE_FC_df, aes(x=Duration, y=MAE, color=Algorithm)) +
   geom_point() + geom_line(aes(group=Algorithm)) +
   scale_color_manual(values=c('royalblue','orange','black','gray')) +

@@ -2,7 +2,7 @@ from pathlib import Path
 from expected_paths_static import expected_paths
 
 # ---- CONFIGURATION ----
-NEW_SNAPSHOT_FILENAME = "1_make_templates.txt"  # Change this name before each run
+NEW_SNAPSHOT_FILENAME = "4_visualize.txt"  # Change this name before each run
 # -----------------------
 
 ROOT = Path(__file__).resolve().parent.parent
