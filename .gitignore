@@ -14,3 +14,10 @@ __pycache__/
 *_proper*
 extra.txt
 /main/scratch.R
+
+
+# temp
+main/templates/template_25.rds
+main/templates/template25/template_mean_thr_IC.html
+main/results/GICA25/result_subj1_sess1_VB1.RData
+main/templates/template25/template_mean_thr_IC_files/

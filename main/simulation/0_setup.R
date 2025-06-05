@@ -25,7 +25,7 @@ library(fMRItools)
 
 source('sim_funs.R')
 
-# library(manipulateWidget)
-# library(rmarkdown)
-# install.packages("rmarkdown") # ??? module loadp pandoc
+# library(manipulateWidget) # for HPC
+# library(rmarkdown) # for HPC
+# install.packages("rmarkdown") # or module load pandoc (HPC)
 # install.packages("manipulateWidget")

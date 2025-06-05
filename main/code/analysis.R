@@ -1,17 +1,20 @@
 #roxygen2::roxygenize('~/Documents/Github/templateICAr/')
 #devtools::install_github('mandymejia/templateICAr', ref='8.0')
-library(templateICAr) #0.8.5
+library(templateICAr) #0.10.0
 library(fMRItools) #0.5.0
 library(ciftiTools) #0.16.0
-ciftiTools.setOption('wb_path', '/Applications/')
+# ciftiTools.setOption('wb_path', '/Applications/')
+ciftiTools.setOption('wb_path', '~/workbench/bin_rh_linux64/wb_command')
 library(dplyr) #1.1.4
 library(viridis) #0.6.5
 library(RColorBrewer) #1.1-3
 library(matrixStats) #1.3.0
 library(ggplot2) #3.5.1
 library(ggthemes) #5.1.0
+library(manipulateWidget)
+library(rmarkdown)
 
-main_dir <- '~/Dropbox/RESEARCH/FCTemplateICA'
+main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/'
 setwd(main_dir)
 
 #need to transfer the data from Carbonate to MacPro? (one time only)
@@ -24,7 +27,7 @@ run_ordering <- FALSE
 run_template <- FALSE
 
 #make images with ciftiTools
-make_images <- FALSE
+make_images <- TRUE
 
 source('code/functions.R') #plot_FC()
 
@@ -34,7 +37,8 @@ source('code/functions.R') #plot_FC()
 
 fname_ts <- '_Atlas_hp2000_clean.dtseries.nii'
 session_names <- c('rfMRI_REST1_LR','rfMRI_REST2_LR')
-cifti_fnames<- file.path(session_names, paste0(session_names, fname_ts))
+# cifti_fnames<- file.path(session_names, paste0(session_names, fname_ts))
+cifti_fnames <- file.path('MNINonLinear/Results', session_names, paste0(session_names, fname_ts))
 
 if(run_carbonate){
   data_dir <- '/N/dcwan/projects/hcp' #as of June 2023 this data was moved to /N/project/hcp_dcwan but will eventually be retired
@@ -334,7 +338,8 @@ template <- readRDS(file.path(main_dir,'templates',paste0('template_',nQ,'.rds')
 # Run 100 subjects and analyze performance of FC, spatial maps, and activation maps.
 # Visualize results for first 5 subjects
 
-data_dir <- '/Volumes/Lab_Data_Drive/data/HCP_Resting_State'
+# data_dir <- '/Volumes/Lab_Data_Drive/data/HCP_Resting_State' #%#
+data_dir <- '/N/project/hcp_dcwan'
 result_dir <- file.path('results',paste0('GICA',nQ))
 template_exp <- export_template(template)
 #determine thresholds for activations
@@ -442,7 +447,7 @@ for(i in 1:5){
 
   } #end loop over visits
 
-} #end loop over subjects
+} #end loop over subjects #%# ERROR (this makes the below files)
 
 comptime <- readRDS(file=file.path(result_dir,'comptime.rds'))
 FC <- readRDS(file=file.path(result_dir,'FC.rds'))
