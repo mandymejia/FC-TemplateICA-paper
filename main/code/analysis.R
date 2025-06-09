@@ -1,5 +1,8 @@
 #roxygen2::roxygenize('~/Documents/Github/templateICAr/')
 #devtools::install_github('mandymejia/templateICAr', ref='8.0')
+.libPaths(c(normalizePath("~/R/libs"), .libPaths())) # for HPC /  module load mesa
+library(rgl) # for hpc
+open3d() # for hpc
 library(templateICAr) #0.10.0
 library(fMRItools) #0.5.0
 library(ciftiTools) #0.16.0
@@ -11,7 +14,7 @@ library(RColorBrewer) #1.1-3
 library(matrixStats) #1.3.0
 library(ggplot2) #3.5.1
 library(ggthemes) #5.1.0
-library(manipulateWidget)
+library(manipulateWidget) 
 library(rmarkdown)
 
 main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/'
@@ -21,10 +24,10 @@ setwd(main_dir)
 run_carbonate <- FALSE
 
 #need to assign ICs to networks?
-run_ordering <- FALSE
+run_ordering <- TRUE
 
 #need to estimate template? (one time only)
-run_template <- FALSE
+run_template <- TRUE
 
 #make images with ciftiTools
 make_images <- TRUE
@@ -197,23 +200,16 @@ if(run_ordering){
   # Cerebellum     Default     VisCent        Cont      SomMot  Brain Stem    DorsAttn SalVentAttn     TempPar     VisPeri     Putamen     Caudate Hippocampus      Limbic    Thalamus
   #.  27          13          13          12           7           6           6           4           3           3           2           1           1           1           1
 
-  # #Bad ICs among 100
-  # #badinds <- c(74,96:100) #Identified these because they exhibited high between subject variance. Inspection of GICA maps showed these to contain high levels of noise. Later we realized many of these are subcortical ICs, so they appeared noisy in the cortex.
-  # #badinds <- which(network_ICs_pct < 25) #for nQ=100, IC 74 has 10% overlap with brainstem
-  # if(nQ==100) badinds <- 74 else badinds <- c()
+
 
   #reorder ICs in order of parcels
   parcel_order <- data.frame(network = c(unique(Yeo17_names[-1]), subcort_names_unique))
   network_ICs_df_ordered <- right_join(parcel_order, network_ICs_df)
   IC_order <- network_ICs_df_ordered$IC
-  IC_order <- setdiff(IC_order, badinds)
-  save(IC_order, badinds, network_ICs_df_ordered, network_ICs, file=paste0('data/IC_networks_ordered_',nQ,'.RData'))
+  nL <- length(IC_order)
+  save(IC_order, network_ICs_df_ordered, network_ICs, file=paste0('data/IC_networks_ordered_',nQ,'.RData'))
 
   #group subcortical regions
-  if(length(badinds) > 0) {
-    badrow <- which(network_ICs_df_ordered$IC %in% badinds)
-    network_ICs_df_ordered <- network_ICs_df_ordered[-badrow,]
-  }
   networks <- network_ICs_df_ordered$network
   subcort <- c('Amygdala','Hippocampus','Accumbens','Putamen','Caudate','Thalamus')
   network_ICs_df_ordered$network[network_ICs_df_ordered$network %in% subcort] <- 'Subcortical'
@@ -254,7 +250,8 @@ if(run_template){
   # save(template_subjects, test_subjects, file='subjects3.RData')
   load(file='subjects3.RData')
 
-  data_dir <- '/Volumes/Lab_Data_Drive/data/HCP_Resting_State'
+  # data_dir <- '/Volumes/Lab_Data_Drive/data/HCP_Resting_State'
+  data_dir <- '/N/project/hcp_dcwan'
 
   #file path to all training subjects (test and retest)
   cifti_fullnames1 <- file.path(data_dir, paste0(template_subjects,'/',cifti_fnames[1]))
@@ -280,7 +277,7 @@ if(run_template){
   # save(tempFC, FC_vals, FC_vals0, file='template_chol_TEST.rds')
 
   saveRDS(template, file.path(main_dir,'templates',paste0('template_',nQ,'.rds')))
-
+  template <- readRDS(file.path(main_dir, "templates", paste0("template_", nQ, ".rds")))
   ###############################################################
   ## VISUALIZE TEMPLATES
   ###############################################################
@@ -371,11 +368,7 @@ FC <- array(NA, dim=c(nQ, nQ, nI, nJ, 5)) # 5 algorithms including DR & DR2 (usi
 S <- array(NA, dim=c(nV, nQ, nI, nJ, 4)) # 4 algorithms including DR
 SE <- array(NA, dim=c(nV, nQ, nI, nJ, 3)) # 3 algorithms
 
-#comptime <- readRDS(file=file.path(result_dir,'comptime_VB2.rds'))
-#FC <- readRDS(file=file.path(result_dir,'FC_VB2.rds'))
-#S <- readRDS(file=file.path(result_dir,'S_VB2.rds'))
-#SE <- readRDS(file=file.path(result_dir,'SE_VB2.rds'))
-
+ 
 for(i in 1:5){
   print(paste0('~~~~~~~~~~~~~~~~ SUBJECT ',i,' ~~~~~~~~~~~~~~~~'))
 
@@ -399,7 +392,7 @@ for(i in 1:5){
                                 resamp_res=10000,
                                 brainstructures=c('left','right'),
                                 reduce_dim=FALSE,
-                                usePar=TRUE,
+                                usePar=8, # Set to TRUE or ncores
                                 verbose=FALSE)))
       print(time_ijq)
 
@@ -438,17 +431,26 @@ for(i in 1:5){
         SE[,,i,j,3] <- result_ijq$result_tICA$subjICse #tICA
       }
 
-      saveRDS(comptime, file=file.path(result_dir,'comptime.rds'))
-      saveRDS(FC, file=file.path(result_dir,'FC.rds'))
-      saveRDS(S, file=file.path(result_dir,'S.rds'))
-      saveRDS(SE, file=file.path(result_dir,'SE.rds'))
+      # saveRDS(comptime, file=file.path(result_dir,'comptime.rds'))
+      # saveRDS(FC, file=file.path(result_dir,'FC.rds'))
+      # saveRDS(S, file=file.path(result_dir,'S.rds'))
+      # saveRDS(SE, file=file.path(result_dir,'SE.rds'))
+
+      if(i == 1 && j == 1 && aa == 1){
+        xii_template <- result_ijq$subjICmean
+        temp_mean_template <- result_ijq$template_mean
+        # saveRDS(xii_template, file = file.path(main_dir, 'data', 'xii_template_structure.rds'))
+        saveRDS(temp_mean_template, file = file.path(main_dir, 'data', 'temp_mean_template.rds'))
+        print("Saved xii template structure and temp_mean for plotting!")
+      }
 
    } #end loop over algorithms
 
   } #end loop over visits
 
 } #end loop over subjects #%# ERROR (this makes the below files)
-
+xii <- readRDS(file.path(result_dir, 'xii_template_structure.rds'))
+temp_mean <- readRDS(file.path(main_dir, 'data', 'temp_mean_template.rds'))
 comptime <- readRDS(file=file.path(result_dir,'comptime.rds'))
 FC <- readRDS(file=file.path(result_dir,'FC.rds'))
 S <- readRDS(file=file.path(result_dir,'S.rds'))
@@ -459,9 +461,9 @@ SE <- readRDS(file=file.path(result_dir,'SE.rds'))
 # COMPUTATION TIME
 
 
-comptime_VB2 <- readRDS(file=file.path(result_dir,'comptime_VB2.rds'))
-comptime[,,2] <- comptime_VB2[,,2]
-# saveRDS(comptime, file=file.path(result_dir,'comptime.rds'))
+comptime_VB2 <- readRDS(file=file.path(result_dir,'comptime_VB2.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
+comptime[,,2] <- comptime_VB2[,,2] #%% DELETE AFTER SCRIPT IS COMPLETE
+# saveRDS(comptime, file=file.path(result_dir,'comptime.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
 
 apply(comptime, 3, mean)/60
 # VB1, VB2, tICA, DR:
@@ -471,9 +473,9 @@ apply(comptime, 3, mean)/60
 #--------------------------
 # FC MATRICES
 
-FC_VB2 <- readRDS(file=file.path(result_dir,'FC_VB2.rds'))
-FC[,,,,2] <- FC_VB2[,,,,2]
-# saveRDS(FC, file=file.path(result_dir,'FC.rds'))
+# FC_VB2 <- readRDS(file=file.path(result_dir,'FC_VB2.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
+# FC[,,,,2] <- FC_VB2[,,,,2] #%% DELETE AFTER SCRIPT IS COMPLETE
+# saveRDS(FC, file=file.path(result_dir,'FC.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
 
 ### Visualize 3 subjects
 for(i in 1:3){
@@ -532,37 +534,38 @@ dev.off()
 #-------------------------------------------
 # IC Spatial Maps and Standard Errors
 
-S_VB2 <- readRDS(file=file.path(result_dir,'S_VB2.rds'))
-S[,,,,2] <- S_VB2[,,,,2]
-# saveRDS(S, file=file.path(result_dir,'S.rds'))
+S_VB2 <- readRDS(file=file.path(result_dir,'S_VB2.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
+S[,,,,2] <- S_VB2[,,,,2] #%% DELETE AFTER SCRIPT IS COMPLETE
+# saveRDS(S, file=file.path(result_dir,'S.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
 
-SE_VB2 <- readRDS(file=file.path(result_dir,'SE_VB2.rds'))
-SE[,,,,2] <- SE_VB2[,,,,2]
-# saveRDS(SE, file=file.path(result_dir,'SE.rds'))
-
+SE_VB2 <- readRDS(file=file.path(result_dir,'SE_VB2.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
+SE[,,,,2] <- SE_VB2[,,,,2] #%% DELETE AFTER SCRIPT IS COMPLETE
+# saveRDS(SE, file=file.path(result_dir,'SE.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
+ 
 
 ### Visualize 3 subjects
 
-idx <- c(11,19)
+idx <- 19 
 
-for(i in 1:3){
+for (i in c(1, 3)) {     # Only subject 1 and 3
 
-  for(j in 1:2){
+  for (j in 1) {         # Only session 1
 
       ### IC MAPS
       zlim <- c(-0.2,0.2)
-      plot(newdata_xifti(xii, S[,,i,j,1]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('S_subj',i,'_sess',j,'_FCtICA1')))
-      plot(newdata_xifti(xii, S[,,i,j,2]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('S_subj',i,'_sess',j,'_FCtICA2')))
-      plot(newdata_xifti(xii, S[,,i,j,3]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('S_subj',i,'_sess',j,'_tICA')))
-      plot(newdata_xifti(xii, S[,,i,j,4]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('S_subj',i,'_sess',j,'_DR')))
+      plot(newdata_xifti(xii, S[,,i,j,1]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('S_subj',i,'_sess',j,'_FCtICA1_IC 2')))
+      plot(newdata_xifti(xii, S[,,i,j,2]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('S_subj',i,'_sess',j,'_FCtICA2_IC 2')))
+      plot(newdata_xifti(xii, S[,,i,j,3]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('S_subj',i,'_sess',j,'_tICA_IC 2')))
+      plot(newdata_xifti(xii, S[,,i,j,4]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('S_subj',i,'_sess',j,'_DR_IC 2')))
 
       ### IC Standard Errors
       zlim <- c(0.025,0.035)
-      plot(newdata_xifti(xii, SE[,,i,j,1]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('SE_subj',i,'_sess',j,'_FCtICA1')))
-      plot(newdata_xifti(xii, SE[,,i,j,2]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('SE_subj',i,'_sess',j,'_FCtICA2')))
-      plot(newdata_xifti(xii, SE[,,i,j,2]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('SE_subj',i,'_sess',j,'_tICA')))
+      plot(newdata_xifti(xii, SE[,,i,j,1]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('SE_subj',i,'_sess',j,'_FCtICA1_IC 2')))
+      plot(newdata_xifti(xii, SE[,,i,j,2]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('SE_subj',i,'_sess',j,'_FCtICA2_IC 2')))
+      plot(newdata_xifti(xii, SE[,,i,j,2]), idx = idx, zlim=zlim, fname=file.path(main_dir,'images',paste0('GICA',nQ),paste0('SE_subj',i,'_sess',j,'_tICA_IC 2')))
   }
 }
+ 
 
 ### ICC of Spatial IC Maps
 
@@ -576,11 +579,11 @@ var_sig[var_sig < 0] <- 0
 ICC <- var_sig/var_tot
 saveRDS(ICC, file = file.path(result_dir, 'S_ICC.rds'))
 
-#ICC
-plot(newdata_xifti(xii, ICC[,,1]), idx=1:nQ, zlim=c(0,0.6), colors='viridis', fname=file.path(main_dir,'images','GICA25','S_ICC_FCtICA1'))
-plot(newdata_xifti(xii, ICC[,,2]), idx=1:nQ, zlim=c(0,0.6), colors='viridis', fname=file.path(main_dir,'images','GICA25','S_ICC_FCtICA2'))
-plot(newdata_xifti(xii, ICC[,,3]), idx=1:nQ, zlim=c(0,0.6), colors='viridis', fname=file.path(main_dir,'images','GICA25','S_ICC_tICA'))
-plot(newdata_xifti(xii, ICC[,,4]), idx=1:nQ, zlim=c(0,0.6), colors='viridis', fname=file.path(main_dir,'images','GICA25','S_ICC_DR'))
+#ICC for IC 1, 2 and 8
+plot(newdata_xifti(xii, ICC[,,1]), idx=c(6, 19, 11), zlim=c(0,0.6), colors='viridis', fname=file.path(main_dir,'images','GICA25','S_ICC_FCtICA1'))
+plot(newdata_xifti(xii, ICC[,,2]), idx=c(6, 19, 11), zlim=c(0,0.6), colors='viridis', fname=file.path(main_dir,'images','GICA25','S_ICC_FCtICA2'))
+plot(newdata_xifti(xii, ICC[,,3]), idx=c(6, 19, 11), zlim=c(0,0.6), colors='viridis', fname=file.path(main_dir,'images','GICA25','S_ICC_tICA'))
+plot(newdata_xifti(xii, ICC[,,4]), idx=c(6, 19, 11), zlim=c(0,0.6), colors='viridis', fname=file.path(main_dir,'images','GICA25','S_ICC_DR'))
 
 #ICC change vs. tICA
 ICC_df <- NULL

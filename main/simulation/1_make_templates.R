@@ -101,7 +101,7 @@ if(first_run){
 
 #generate and write out simulated fMRI data for each subject
 ### BOLD_fnames <- paste0('data/subj',1:n,'.dtseries.nii')
-BOLD_fnames <- paste0('/N/project/FCTemplateICA/data/1_make_templates/subj', 1:n, '.dtseries.nii') 
+BOLD_fnames <- paste0('/N/project/FCTemplateICA/data/1_make_templates/subj', 1:n, '.dtseries.nii') #%# setup in setup.R, but dont let it break if it does exist
 #%# Skipping the rest of this block as we are reading it from slate ... make a note to the user in Setup
 ntime <- 1200 #length of fMRI timeseries
 if(first_run){

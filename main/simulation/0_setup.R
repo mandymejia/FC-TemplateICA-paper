@@ -1,5 +1,5 @@
-.libPaths(c(normalizePath("~/R/libs"), .libPaths()))
-
+.libPaths(c(normalizePath("~/R/libs"), .libPaths())) # for HPC, must install library(rgl) and module load mesa <add more robust comments if needed>
+library(rgl)
 # install.packages("remotes")
 # remotes::install_version("templateICAr", version = "0.10.0") # To install specific versions.
 
@@ -23,9 +23,11 @@ library(viridis) #0.6.5
 library(dplyr) #1.1.4
 library(fMRItools)
 
+
 source('sim_funs.R')
 
 # library(manipulateWidget) # for HPC
 # library(rmarkdown) # for HPC
 # install.packages("rmarkdown") # or module load pandoc (HPC)
 # install.packages("manipulateWidget")
+

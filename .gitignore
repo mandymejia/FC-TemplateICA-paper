@@ -12,12 +12,19 @@
 __pycache__/
 *_dropbox*
 *_proper*
+*_temp.rds*
 extra.txt
 /main/scratch.R
 
 
 # temp
-main/templates/template_25.rds
 main/templates/template25/template_mean_thr_IC.html
-main/results/GICA25/result_subj1_sess1_VB1.RData
 main/templates/template25/template_mean_thr_IC_files/
+
+main/templates/template_25.rds
+main/results/GICA25/S_VB2.rds
+main/results/GICA25/SE_VB2.rds
+main/simulation/TCs_FC.RData
+main/simulation/subjICs_longsim.RDS
+main/results/GICA25/S.rds
+main/results/GICA25/SE.rds

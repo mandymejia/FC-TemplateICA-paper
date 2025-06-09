@@ -2,7 +2,7 @@ from pathlib import Path
 from expected_paths_static import expected_paths
 
 # ---- CONFIGURATION ----
-NEW_SNAPSHOT_FILENAME = "4_visualize.txt"  # Change this name before each run
+NEW_SNAPSHOT_FILENAME = "5_new_sim_AND_analysis.txt"  # Change this name before each run
 # -----------------------
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -28,7 +28,8 @@ for ext in ('*.pdf', '*.png'):
 
 # 4. Compute status categories
 found = sorted(p for p in expected_paths_set if p in all_found_files)
-missing = sorted(p for p in expected_paths_set if p not in all_found_files)
+# missing = sorted(p for p in expected_paths_set if p not in all_found_files)
+missing = sorted(p for p in expected_paths_set if p not in all_found_files and "legend" not in p.name.lower())
 extra = sorted(p for p in all_found_files if p not in expected_paths_set and p not in previous_files)
 
 # 5. Save newly matched files to NEW_SNAPSHOT_FILENAME
@@ -48,3 +49,10 @@ if found:
 print(f"\nExtra: {len(extra)} unexpected file(s)")
 for f in extra:
     print(f"  - {f}")
+
+# 7. Print missing file count and paths
+print(f"\nRemaining: {len(missing)} expected file(s) not yet found")
+if missing:
+    print("Missing file paths:")
+    for p in missing:
+        print(f"  ? {p}")
