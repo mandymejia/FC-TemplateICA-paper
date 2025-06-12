@@ -17,10 +17,8 @@ extra.txt
 /main/scratch.R
 
 
-# temp
-main/templates/template25/template_mean_thr_IC.html
-main/templates/template25/template_mean_thr_IC_files/
-
+# Files too big to upload that the code produces. 
+# They are instead broken up, but eventually re-put together.
 main/templates/template_25.rds
 main/results/GICA25/S_VB2.rds
 main/results/GICA25/SE_VB2.rds

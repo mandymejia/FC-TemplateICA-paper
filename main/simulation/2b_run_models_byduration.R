@@ -1,8 +1,12 @@
+### This script doesn't generate any plots, but it does make Rdata files that 
+### are given on the repo. This script will output 50 .Rdata files called testsubj1-5.RData
+### then 3_collect_results will consolidate it into test_set_results.RData
+
 ### PART 2: VARY SCAN DURATION ---------------------------------------------
-main_dir <- '~/Dropbox/RESEARCH/FCTemplateICA/simulation/'
-#main_dir <- '~/Dropbox (Brown)/FCTemplateICA/simulation/'
+main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
 setwd(main_dir)
 source('0_setup.R')
+
 
 ##############################################################################
 ### LOAD IN PREVIOUSLY CREATED RESULTS

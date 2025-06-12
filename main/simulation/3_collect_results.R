@@ -2,11 +2,10 @@
 ### are given on the repo. This script will output 50 .Rdata files called testsubj1-5.RData
 ### then 3b_collect_results_byduration will consolidate it into test_set_results.RData
 
-
-main_dir <- '~/Dropbox/RESEARCH/FCTemplateICA/simulation/'
-#main_dir <- '~/Dropbox (Brown)/FCTemplateICA/simulation/'
+main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
 setwd(main_dir)
 source('0_setup.R')
+
 
 ##############################################################################
 ### LOAD IN PREVIOUSLY CREATED RESULTS

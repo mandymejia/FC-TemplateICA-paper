@@ -6,6 +6,7 @@ main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
 setwd(main_dir)
 source('0_setup.R')
 
+
 ##############################################################################
 ### LOAD IN PREVIOUSLY CREATED RESULTS
 
