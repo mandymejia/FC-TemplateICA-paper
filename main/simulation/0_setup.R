@@ -1,4 +1,4 @@
-# If you're on a HPC computing system you will need to module load mesa and module load pandoc
+# If you're on a HPC computing system you will need to 'module load mesa' and 'module load pandoc'
 # and will need to set your local library path to install specific packages, and their required versions
 .libPaths(c(normalizePath("~/R/libs"), .libPaths()))  # Add and prioritize a local library path
 library(rgl)
@@ -17,11 +17,12 @@ library(ciftiTools) #0.16.0
 # library(manipulateWidget) # May need for HPC if pdfs and pngs do not render.
 # library(rmarkdown) # May need for HPC if pdfs and pngs do not render.
 
-
+# Note:
 # Some packages require specific versions and this how you can install them:
 # install.packages("remotes") 
+# install.packages("devtools")
 # remotes::install_version("templateICAr", version = "0.10.0", lib = "~/R/libs", repos = "https://cloud.r-project.org")
-
+# devtools::install_github('mandymejia/templateICAr', ref='10.0') # For development versions
 
 # Set your ciftiTools wb_path to the location of your wb_command
 # ciftiTools.setOption('wb_path', '/Applications') 
@@ -39,4 +40,9 @@ if (calling_script == '5_longsim.R') {
 } else {
   BOLD_fnames <- paste0('/N/project/FCTemplateICA/data/1_make_templates/subj', 1:n, '.dtseries.nii')
 }
-
+# Note:
+# The code creates a lot of directories for organizational purposes, so if you will be running the scripts
+# from scratch, makes sure to create the directors or insert lines such as these:
+# if (!dir.exists("my_directory")) {
+#   dir.create("my_directory")
+# }

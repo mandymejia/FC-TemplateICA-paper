@@ -1,6 +1,6 @@
 main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
 setwd(main_dir)
-calling_script < - '5_longsim.R'  
+calling_script <- '5_longsim.R'
 source('0_setup.R')
 
 first_run <- FALSE
