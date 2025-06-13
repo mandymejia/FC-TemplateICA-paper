@@ -17,4 +17,12 @@ This repository contains code to reproduce all figures and analyses from the FC-
 
 Intermediate results and templates are included in the repository to enable reproduction without requiring access to the full HCP dataset. For simulations, we supply `TCs.RDS` but users can generate their own time courses using `simulation/00_get_TCs_HCP.R` if desired.
 
-**Full reproduction from scratch**: To run analyses from the beginning, execute simulation scripts in order (`1_make_templates.R` → `2_run_models.R` → `3_collect_results.R` → `4_visualize.R`) or real data analysis (`code/1_analysis.R` with HCP data). Set flags like `first_run` and other control flags at the beginning of scripts to `TRUE` to enable full computation.
+**Full reproduction from scratch**:
+
+**Full reproduction from scratch**:
+
+- **Simulation analyses**: Execute simulation scripts in order (`1_make_templates.R` → `2_run_models.R` → `3_collect_results.R` → `4_visualize.R`) from the `simulation/` directory.
+
+- **HCP real data analysis**: Execute `code/1_analysis.R` with HCP data.
+
+> **Note**: For either path, set flags like `first_run` and other control flags at the beginning of scripts to `TRUE` to enable full computation from scratch.
