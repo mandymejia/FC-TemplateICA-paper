@@ -2,14 +2,13 @@
 ### The output file TCs.rds has been supplied in this repository so it is NOT necessary to run this 
 ### script unless the user choses to
 
-library(ciftiTools)
+library(ciftiTools) #0.16.0
 ciftiTools.setOption('wb_path', '/Applications/workbench/') # Set path
  
 main_dir <- '~/Documents/Github/FC-TemplateICA-paper/simulation/'
 setwd(main_dir)
 
 data_dir <- '/N/project/hcp_dcwan' # HCP data directory, set path
-
 cifti_fname <- 'rfMRI_REST1_LR/rfMRI_REST1_LR_Atlas.dtseries.nii' 
 
 ###########################################################################################
