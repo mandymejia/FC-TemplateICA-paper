@@ -322,7 +322,7 @@ load(file = 'results/long_duration/MSE.RData')
 ## Plot MSE of Time Courses
 #%# Creates (part of) Fig. D.10
 durations <- c(200, 400, 800, 1200, 1600, 2400) 
-pdf(file.path('..', 'simulation_long', 'MSE_TCs.pdf'), width=6, height=4)
+pdf(file.path('simulation_long', 'MSE_TCs.pdf'), width=6, height=4)
 aa <- 1
   plot(durations, MSE_TC[,aa], type='l', ylab='MSE of Mixing Matrix', main=paste0('VB',aa), xlab = 'Duration', ylim=c(0.01,0.018))
   abline(h = min(MSE_TC[,aa]), lty=2)
@@ -338,7 +338,7 @@ MSE_prior_avg <- apply(MSE_prior, 3:4, function(x){ mean(x[upper.tri(x)]) })
 MSE2_true_avg <- apply(MSE2_true, 3:4, function(x){ mean(x[upper.tri(x)]) })
 
 #loop over VB1, VB2 #%# Creates (part of) Fig. D.9
-pdf(file.path('..', 'simulation_long', 'MSE_truth_prior.pdf'), width=8, height=6)
+pdf(file.path('simulation_long', 'MSE_truth_prior.pdf'), width=8, height=6)
 par(mfrow=c(1,2))
 for(aa in 1:2){
   plot(durations, MSE2_true[1,2,,aa], type='l', col='gray', lwd=1.5, ylim=c(0,0.12), main=paste0('VB',aa), ylab='MSE of FC', lty=1, xlab='Duration')
