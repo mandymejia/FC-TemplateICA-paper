@@ -19,8 +19,6 @@ Intermediate results and templates are included in the repository to enable repr
 
 **Full reproduction from scratch**:
 
-**Full reproduction from scratch**:
-
 - **Simulation analyses**: Execute simulation scripts in order (`1_make_templates.R` → `2_run_models.R` → `3_collect_results.R` → `4_visualize.R`) from the `simulation/` directory.
 
 - **HCP real data analysis**: Execute `code/1_analysis.R` with HCP data.
