@@ -12,8 +12,11 @@ __pycache__/
 
 # Local testing files
 main/file_check/
+file_check/
 extra.txt
 /main/scratch.R
+scratch.R
+
 *_dropbox*
 *_proper*
 *_temp.rds*
@@ -29,3 +32,11 @@ main/simulation/TCs_FC.RData
 main/simulation/subjICs_longsim.RDS
 main/results/GICA25/S.rds
 main/results/GICA25/SE.rds
+
+templates/template_25.rds
+results/GICA25/S_VB2.rds
+results/GICA25/SE_VB2.rds
+simulation/TCs_FC.RData
+simulation/subjICs_longsim.RDS
+results/GICA25/S.rds
+results/GICA25/SE.rds
