@@ -6,11 +6,9 @@ This repository contains code to reproduce all figures and analyses from the FC-
 
 - `simulation/`: Simulation studies comparing FC-tICA with other methods using simulated data
 - `code/`: Real data analysis using preprocessed HCP resting-state fMRI data  
-- Generated figures (PDFs and PNGs) are saved throughout both directories
+- Generated plots and results are saved throughout the repository.
 
 ## Quick Start
-
-All intermediate results are included in the repository:
 
 1. **Setup**: Review `0_setup.R` in both `simulation/` and `code/` directories for required R packages and file paths
 2. Specific figures are commented in the code (look for `#%# Creates Fig. X.X` comments)

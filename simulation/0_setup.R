@@ -49,9 +49,9 @@ if (exists("calling_script") && calling_script == '5_longsim.R') {
 }
 
 
-# WARNING:
-# The code creates a lot of directories for organizational purposes, so if you will be running the scripts
-# from scratch, makes sure to create the directors or insert lines such as these:
+# Note:
+# The code assumes the existence of certain directories (e.g., "plots", "results") for saving outputs.
+# If running the scripts from scratch, be sure to create these directories manually or add checks like:
 # if (!dir.exists("my_directory")) {
 #   dir.create("my_directory")
 # }

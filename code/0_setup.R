@@ -37,8 +37,8 @@ data_dir <- '/N/project/hcp_dcwan' # HCP data directory
 cifti_fnames <- file.path('MNINonLinear/Results', session_names, paste0(session_names, '_Atlas_hp2000_clean.dtseries.nii'))
 
 # Note:
-# The code creates a lot of directories for organizational purposes, so if you will be running the scripts
-# from scratch, makes sure to create the directors or insert lines such as these:
+# The code assumes the existence of certain directories (e.g., "plots", "results") for saving outputs.
+# If running the scripts from scratch, be sure to create these directories manually or add checks like:
 # if (!dir.exists("my_directory")) {
 #   dir.create("my_directory")
 # }
