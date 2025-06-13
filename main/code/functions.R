@@ -94,3 +94,11 @@ image.scale <- function(z, zlim, col = heat.colors(12),
 }
 
 
+reconstruct_S <- function() {
+  S_out <- array(dim = c(18792, 25, 100, 2, 4))
+  for (i in 1:100) {
+    S_out[, , i, , ] <- readRDS(sprintf("results/GICA25/S_subject_%03d.rds", i))
+  }
+  saveRDS(S_out, "results/GICA25/S.rds")
+  S_out
+}

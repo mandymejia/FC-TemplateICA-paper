@@ -94,15 +94,15 @@ if(first_run){
 
   plot(tvar_est_xifti, idx=1:5, zlim=c(0,0.03),
        title = paste0('Template Var, IC ', 1:5),
-       fname = paste0('templates/template_var', 1:5)) #%# Creates (part of) Fig D.3
+       fname = paste0('templates/template_var', 1:5)) #%# Creates (part of) Fig. D.3
 }
 
 ################################################################
 ### SETUP FOR GENERATING FMRI DATA
 
 #generate and write out simulated fMRI data for each subject
-### BOLD_fnames <- paste0('data/subj',1:n,'.dtseries.nii')
-BOLD_fnames <- paste0('/N/project/FCTemplateICA/data/1_make_templates/subj', 1:n, '.dtseries.nii') #%# setup in setup.R, but dont let it break if it does exist
+BOLD_fnames <- paste0('/N/project/FCTemplateICA/data/1_make_templates/subj', 1:n, '.dtseries.nii')  
+
 #%# Skipping the rest of this block as we are reading it from slate ... make a note to the user in Setup
 ntime <- 1200 #length of fMRI timeseries
 if(first_run){

@@ -20,10 +20,11 @@ first_run <- FALSE
 ## COLLECT AND TRANSFER THE DATA
 ###############################################################
 
-fname_ts <- '_Atlas_hp2000_clean.dtseries.nii'
-session_names <- c('rfMRI_REST1_LR','rfMRI_REST2_LR')
+# Moved to 0_setup.R
+# fname_ts <- '_Atlas_hp2000_clean.dtseries.nii'
+# session_names <- c('rfMRI_REST1_LR','rfMRI_REST2_LR')
 # cifti_fnames<- file.path(session_names, paste0(session_names, fname_ts))
-# cifti_fnames <- file.path('MNINonLinear/Results', session_names, paste0(session_names, fname_ts)) # Moved to setup
+# cifti_fnames <- file.path('MNINonLinear/Results', session_names, paste0(session_names, fname_ts)) 
 
 if(run_carbonate){
   data_dir <- '/N/dcwan/projects/hcp' #as of June 2023 this data was moved to /N/project/hcp_dcwan but will eventually be retired
@@ -165,7 +166,7 @@ if(run_ordering){
     IC_q[IC_q_thr==FALSE] <- NA
     xii_q <- newdata_xifti(GICA, IC_q)
     title_q <- paste0('IC ',q,' (',network_ICs[q],')')
-    #%# Creates Fig E.11
+    #%# Creates Fig. E.11
     if(make_images) plot(xii_q, title=title_q, fname=file.path('templates',paste0('GICA',nQ),paste0('GICA_IC',q,'_thr')), legend_fname=NULL)
   }
   network_ICs_df <- data.frame(IC = 1:nQ,network = network_ICs)
@@ -230,8 +231,7 @@ if(run_template){
   # save(template_subjects, test_subjects, file='subjects3.RData')
   load(file='subjects3.RData')
 
-  # data_dir <- '/Volumes/Lab_Data_Drive/data/HCP_Resting_State'
-  data_dir <- '/N/project/hcp_dcwan'
+  # data_dir <- '/N/project/hcp_dcwan' # Set HCP data directly, otherwise set it in 0_setup.R
 
   #file path to all training subjects (test and retest)
   cifti_fullnames1 <- file.path(data_dir, paste0(template_subjects,'/',cifti_fnames[1]))
@@ -307,6 +307,9 @@ if(run_template){
   }
 }
 load(file='subjects3.RData')
+
+if (!file.exists("templates/template_25.rds")) piggyback::pb_download("template_25.rds", repo = "mandymejia/FC-TemplateICA-paper", dest = "templates")
+
 template <- readRDS(file.path(main_dir,'templates',paste0('template_',nQ,'.rds')))
 
 ###############################################################
@@ -418,24 +421,27 @@ if (first_run) {
 
     } #end loop over visits
 
-  } #end loop over subjects #%# ERROR (this makes the below files)
+  } #end loop over subjects 
 } #end first_run
 
+# Load files previous generated
 xii <- readRDS(file.path(result_dir, 'xii_template_structure.rds'))
 temp_mean <- readRDS(file.path(main_dir, 'data', 'temp_mean_template.rds'))
 comptime <- readRDS(file=file.path(result_dir,'comptime.rds'))
 FC <- readRDS(file=file.path(result_dir,'FC.rds'))
-S <- readRDS(file=file.path(result_dir,'S.rds'))
+
+
+# S has been broken up for Github since it's too large to even be put as a release on Piggyback.
+# reconstruct_S calls a function from function.R that will reconstruct 100 parts (1 part per subject)
+if (!file.exists(file.path(result_dir, "S.rds"))) {
+  S <- reconstruct_S()
+} else {
+  S <- readRDS(file.path(result_dir, "S.rds"))
+}
+
+if (!file.exists("results/GICA25/SE.rds")) piggyback::pb_download("SE.rds", repo = "mandymejia/FC-TemplateICA-paper", dest = "results/GICA25")
 SE <- readRDS(file=file.path(result_dir,'SE.rds'))
 
-
-#--------------------------
-# COMPUTATION TIME
-
-
-comptime_VB2 <- readRDS(file=file.path(result_dir,'comptime_VB2.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
-comptime[,,2] <- comptime_VB2[,,2] #%% DELETE AFTER SCRIPT IS COMPLETE
-# saveRDS(comptime, file=file.path(result_dir,'comptime.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
 
 apply(comptime, 3, mean)/60
 # VB1, VB2, tICA, DR:
@@ -466,7 +472,7 @@ FC_dist <- apply(FC, 3:5, function(x) (x - FC_pop_mean)^2)
 FC_dist_mean <- apply(FC_dist, c(1,4), mean)
 FC_dist_mean <- array(FC_dist_mean, dim = c(nQ, nQ, 5))
 
-#%# Creates (part of) Fig 4.
+#%# Creates (part of) Fig. 4.
 pdf(file.path(main_dir,'plots','GICA25',paste0('FC_dist.pdf')), width=5, height=5)
 cols <- viridis_pal(option = 'A')(7)
 plot_FC(sqrt(FC_dist_mean[,,1]), zlim=c(0, 0.4), break_by = 0.2, title = "FC Template ICA (VB1)", cor=TRUE, lines = change, labels = labels, lwd_lines=1.5, cols=cols)#, col_lines = 'white')
@@ -498,18 +504,6 @@ pdf(file.path(main_dir,'plots','GICA25',paste0('FC_ICC_change.pdf')), width=5, h
 plot_FC(FC_ICC[,,1] - FC_ICC[,,3], zlim=c(-0.3, 0.3), break_by = 0.3, title = "FC-tICA (VB1) vs. tICA", cor=TRUE, lines = change, labels = labels, lwd_lines=1.5, cols_rev = TRUE)#, col_lines = 'white')
 plot_FC(FC_ICC[,,2] - FC_ICC[,,3], zlim=c(-0.3, 0.3), break_by = 0.3, title = "FC-tICA (VB2) vs. tICA", cor=TRUE, lines = change, labels = labels, lwd_lines=1.5, cols_rev = TRUE)#, col_lines = 'white')
 dev.off()
-
-#-------------------------------------------
-# IC Spatial Maps and Standard Errors
-
-S_VB2 <- readRDS(file=file.path(result_dir,'S_VB2.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
-S[,,,,2] <- S_VB2[,,,,2] #%% DELETE AFTER SCRIPT IS COMPLETE
-# saveRDS(S, file=file.path(result_dir,'S.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
-
-SE_VB2 <- readRDS(file=file.path(result_dir,'SE_VB2.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
-SE[,,,,2] <- SE_VB2[,,,,2] #%% DELETE AFTER SCRIPT IS COMPLETE
-# saveRDS(SE, file=file.path(result_dir,'SE.rds')) #%% DELETE AFTER SCRIPT IS COMPLETE
- 
 
 ### Visualize 3 subjects
 
@@ -576,7 +570,7 @@ ggplot(ICC_df, aes(x=abs(temp_mean), y=ICC, group=method, color=method)) +
   theme_few()
 ICC_df2 <- subset(ICC_df, method != 'tICA')
 
-#%# Creates Fig F.15
+#%# Creates Fig. F.15
 pdf(file.path(main_dir, 'plots', 'S_ICC_vs_tICA.pdf'), width=5, height=5)
 ggplot(ICC_df2, aes(x=abs(temp_mean), y=ICC_diff_tICA, group=method, color=method)) + 
   geom_smooth() + geom_hline(yintercept=0, linetype=2) +

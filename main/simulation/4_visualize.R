@@ -47,7 +47,7 @@ for(ii in 1:3){
   #True IC maps
   S_true_xifti <- newdata_xifti(xii, S_true[,,ii])
   plot(S_true_xifti, idx=1:Q, zlim=c(-0.5,0.5), title='True IC', fname=paste0('images/examples/testsubj',ii,'_S_true'))
-  #%# Creates (part of) Fig D.5
+  #%# Creates (part of) Fig. D.5
   plot(S_true_xifti - template_mean, idx=1:Q, zlim=c(-0.25,0.25), title='True Deviation', fname=paste0('images/examples/testsubj',ii,'_Sdev_true')) ### VISUALIZE GROUND TRUTH ICs (first 5 subjects)
 }
 
@@ -70,7 +70,7 @@ for(ii in 1:3){
     alg <- gsub('_','',algos2[aa])
     IC_est_aa <- newdata_xifti(xii, S_est[,,ii,aa])
     #Deviation estimates
-    plot(IC_est_aa - template_mean, idx=4, zlim=c(-0.25,0.25), #%# Creates Fig D.5
+    plot(IC_est_aa - template_mean, idx=4, zlim=c(-0.25,0.25), #%# Creates (part of) Fig. D.5
          title=paste0('Deviation Estimate (', alg, ')'),
          fname=file.path('images','examples',paste0('testsubj',ii,'_Sdev_',alg)))
   }

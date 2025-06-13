@@ -1,6 +1,6 @@
 # If you're on a HPC computing system you will need to 'module load mesa' and 'module load pandoc'
 # and will need to set your local library path to install specific packages, and their required versions
-.libPaths(c(normalizePath("~/R/libs"), .libPaths())) # for HPC /  module load mesa
+.libPaths(c(normalizePath("~/R/libs"), .libPaths()))  
 library(rgl) # for hpc
 library(templateICAr) #0.10.0
 library(fMRItools) #0.5.0
@@ -13,6 +13,7 @@ library(ggplot2) #3.5.1
 library(ggthemes) #5.1.0
 library(manipulateWidget) 
 library(rmarkdown)
+library(piggyback)
 
 # Note:
 # Some packages require specific versions and this how you can install them:
@@ -31,7 +32,9 @@ source('code/functions.R')
 # Variable definitions for file paths:
 ##
 ##
+session_names <- c('rfMRI_REST1_LR','rfMRI_REST2_LR')
 data_dir <- '/N/project/hcp_dcwan' # HCP data directory
+cifti_fnames <- file.path('MNINonLinear/Results', session_names, paste0(session_names, '_Atlas_hp2000_clean.dtseries.nii'))
 
 # Note:
 # The code creates a lot of directories for organizational purposes, so if you will be running the scripts

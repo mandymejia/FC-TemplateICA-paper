@@ -17,7 +17,6 @@ subjICs <- readRDS('subjICs.RDS')
 template <- readRDS('templates/template.RDS')
 
 n <- 500 + 50 #500 training subjects (use to re-estimate template) + 50 test subjects
-# BOLD_fnames <- paste0('data/subj',1:n,'.dtseries.nii')
 BOLD_fnames <- paste0('/N/project/FCTemplateICA/data/1_make_templates/subj', 1:n, '.dtseries.nii') 
 
 ##############################################################################

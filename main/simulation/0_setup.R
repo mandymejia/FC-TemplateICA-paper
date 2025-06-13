@@ -1,5 +1,6 @@
 # If you're on a HPC computing system you will need to 'module load mesa' and 'module load pandoc'
-# and will need to set your local library path to install specific packages, and their required versions
+# as well as the other necessary modules to run R.
+# Also you will need to set your local library path to install specific packages, and their required versions
 .libPaths(c(normalizePath("~/R/libs"), .libPaths()))  # Add and prioritize a local library path
 library(rgl)
 library(reshape2) #1.4.4
@@ -13,7 +14,8 @@ library(dplyr) #1.1.4
 library(fMRItools) #0.5.0
 library(templateICAr) #0.10.0
 library(ciftiTools) #0.16.0
-# library(matrixStats) #colVars
+library(matrixStats) #colVars
+library(piggyback)
 # library(manipulateWidget) # May need for HPC if pdfs and pngs do not render.
 # library(rmarkdown) # May need for HPC if pdfs and pngs do not render.
 
@@ -34,13 +36,20 @@ source('sim_funs.R')
 # Variable definitions for file paths:
 ##
 ##
-if (calling_script == '5_longsim.R') {
-  # For long simulation data
-  BOLD_fnames <- paste0('/N/project/FCTemplateICA/data/5_longsim/subj', 1:500, '.dtseries.nii')
-} else {
-  BOLD_fnames <- paste0('/N/project/FCTemplateICA/data/1_make_templates/subj', 1:n, '.dtseries.nii')
+n <- 500 + 50 # 500 training subjects (use to re-estimate template) + 50 test subjects
+BOLD_fnames_user_setup <- paste0('/N/project/FCTemplateICA/data/1_make_templates/subj', 1:n, '.dtseries.nii')
+BOLD_fnames_user_setup_longsim <- paste0('/N/project/FCTemplateICA/data/5_longsim/subj', 1:500, '.dtseries.nii')
+
+if (!exists("BOLD_fnames")) { # Check if BOLD_fnames is already defined in the caller
+  if (exists("calling_script") && calling_script == '5_longsim.R') {
+    # For long simulation data
+    BOLD_fnames <- BOLD_fnames_user_setup_longsim
+  } else {
+    BOLD_fnames <- BOLD_fnames_user_setup
+  }
 }
-# Note:
+
+# WARNING:
 # The code creates a lot of directories for organizational purposes, so if you will be running the scripts
 # from scratch, makes sure to create the directors or insert lines such as these:
 # if (!dir.exists("my_directory")) {

@@ -7,18 +7,21 @@
 **/.RData
 **/.Rproj.user/
 # *_files/
-# *_files/
 /data/
 __pycache__/
+
+# Local testing files
+main/file_check/
+extra.txt
+/main/scratch.R
 *_dropbox*
 *_proper*
 *_temp.rds*
-extra.txt
-/main/scratch.R
 
 
 # Files too big to upload that the code produces. 
 # They are instead broken up, but eventually re-put together.
+# Or downloaded via piggyback() using pb_download()
 main/templates/template_25.rds
 main/results/GICA25/S_VB2.rds
 main/results/GICA25/SE_VB2.rds

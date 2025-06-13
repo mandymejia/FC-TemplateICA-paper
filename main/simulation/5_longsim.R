@@ -46,6 +46,7 @@ if(first_run){
   saveRDS(subjICs, 'subjICs_longsim.RDS')
 } #&& Need to run to match
 
+if (!file.exists("subjICs_longsim.RDS")) piggyback::pb_download("subjICs_longsim.RDS", repo = "mandymejia/FC-TemplateICA-paper")
 subjICs <- readRDS('subjICs_longsim.RDS')
 template_mean_est <- apply(subjICs[,,1:500], c(1,2), mean)
 template_var_est <- apply(subjICs[,,1:500], c(1,2), var)
@@ -140,6 +141,7 @@ if(first_run){
   TCs_FC <- array(apply(FC_true, 2, TC_fun), dim = c(nQ, nT_long, nS))
   save(FC_true, TCs_FC, file='TCs_FC.RData')
 }
+if (!file.exists("TCs_FC.RData")) piggyback::pb_download("TCs_FC.RData", repo = "mandymejia/FC-TemplateICA-paper")
 load(file='TCs_FC.RData')
 
 
