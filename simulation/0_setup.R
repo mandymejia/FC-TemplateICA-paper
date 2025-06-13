@@ -2,7 +2,6 @@
 # as well as the other necessary modules to run R.
 # Also you will need to set your local library path to install specific packages, and their required versions
 # .libPaths(c(normalizePath("~/R/libs"), .libPaths()))  # Add and prioritize a local library path for HPC systems
-library(rgl)
 library(reshape2) #1.4.4
 library(ggplot2) #3.5.1
 library(ggthemes) #5.1.0
@@ -17,6 +16,7 @@ library(ciftiTools) #0.16.0
 library(matrixStats) #1.3.0
 library(piggyback) #0.1.5
 library(xtable) #1.8.4
+
 # library(manipulateWidget) #0.11.1 May need for HPC if pdfs and pngs do not render.
 # library(rmarkdown) #2.29 May need for HPC if pdfs and pngs do not render.
 

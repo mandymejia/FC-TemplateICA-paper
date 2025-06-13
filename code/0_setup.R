@@ -1,7 +1,6 @@
 # If you're on a HPC computing system you will need to 'module load mesa' and 'module load pandoc'
 # and will need to set your local library path to install specific packages, and their required versions
 # .libPaths(c(normalizePath("~/R/libs"), .libPaths())) #  Add and prioritize a local library path for HPC systems
-library(rgl) # for hpc
 library(templateICAr) #0.10.0
 library(fMRItools) #0.5.0
 library(ciftiTools) #0.16.0
@@ -12,6 +11,7 @@ library(matrixStats) #1.3.0
 library(ggplot2) #3.5.1
 library(ggthemes) #5.1.0
 library(piggyback) #0.1.5
+# library(rgl) #1.3.18 May need for HPC if pdfs and pngs do not render.
 # library(manipulateWidget) #0.11.1 May need for HPC if pdfs and pngs do not render.
 # library(rmarkdown) #2.29 May need for HPC if pdfs and pngs do not render.
 
