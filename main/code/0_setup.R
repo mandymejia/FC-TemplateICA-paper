@@ -1,6 +1,6 @@
 # If you're on a HPC computing system you will need to 'module load mesa' and 'module load pandoc'
 # and will need to set your local library path to install specific packages, and their required versions
-.libPaths(c(normalizePath("~/R/libs"), .libPaths()))  
+# .libPaths(c(normalizePath("~/R/libs"), .libPaths())) #  Add and prioritize a local library path for HPC systems
 library(rgl) # for hpc
 library(templateICAr) #0.10.0
 library(fMRItools) #0.5.0
@@ -11,9 +11,10 @@ library(RColorBrewer) #1.1-3
 library(matrixStats) #1.3.0
 library(ggplot2) #3.5.1
 library(ggthemes) #5.1.0
-library(manipulateWidget) 
-library(rmarkdown)
-library(piggyback)
+library(piggyback) #0.1.5
+# library(manipulateWidget) #0.11.1 May need for HPC if pdfs and pngs do not render.
+# library(rmarkdown) #2.29 May need for HPC if pdfs and pngs do not render.
+
 
 # Note:
 # Some packages require specific versions and this how you can install them:
@@ -23,9 +24,8 @@ library(piggyback)
 # devtools::install_github('mandymejia/templateICAr', ref='10.0') # For development versions
 
 # Set your ciftiTools wb_path to the location of your wb_command
-# ciftiTools.setOption('wb_path', '/Applications') 
-# ciftiTools.setOption('wb_path', '/Applications/workbench/bin_macosxub/') # MacOS
-ciftiTools.setOption('wb_path', '~/workbench/bin_rh_linux64/wb_command') # Linux HPC
+# ciftiTools.setOption('wb_path', '/Applications') # MacOS, Set path
+ciftiTools.setOption('wb_path', '~/workbench/bin_rh_linux64/wb_command') # Linux HPC, Set path
 
 source('code/functions.R') 
 

@@ -1,14 +1,22 @@
-# FC-TemplateICA-paper
+# FC-TemplateICA Paper Reproducibility Repository
 
-Code for reproducing figures and analyses from the FC Template ICA paper.
+This repository contains code to reproduce all figures and analyses from the FC-TemplateICA paper, organized into **simulation studies** and **real data analysis** using Human Connectome Project (HCP) data.
 
-## Structure
+## Repository Structure
 
-```
-.
-├── from Dropbox/    # Read-only reference files from original Dropbox project
-└── main/            # Active working directory for reproducible analysis
-```
+- `simulation/`: Simulation studies comparing FC-tICA with other methods using simulated data
+- `code/`: Real data analysis using preprocessed HCP resting-state fMRI data  
+- Generated figures (PDFs and PNGs) are saved throughout both directories
 
-- `from Dropbox/` contains original code, data, and simulations. **Do not modify.**
-- `main/` is where all reproducible work should happen.
+## Quick Start
+
+All intermediate results are included in the repository:
+
+1. **Setup**: Review `0_setup.R` in both `simulation/` and `code/` directories for required R packages and file paths
+2. Specific figures are commented in the code (look for `#%# Creates Fig. X.X` comments)
+
+## Data Notes
+
+Intermediate results and templates are included in the repository to enable reproduction without requiring access to the full HCP dataset. For simulations, we supply `TCs.RDS` but users can generate their own time courses using `simulation/00_get_TCs_HCP.R` if desired.
+
+**Full reproduction from scratch**: To run analyses from the beginning, execute simulation scripts in order (`1_make_templates.R` → `2_run_models.R` → `3_collect_results.R` → `4_visualize.R`) or real data analysis (`code/1_analysis.R` with HCP data). Set flags like `first_run` and other control flags at the beginning of scripts to `TRUE` to enable full computation.

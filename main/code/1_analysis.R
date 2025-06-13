@@ -1,4 +1,4 @@
-main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/'
+main_dir <- '~/Documents/Github/FC-TemplateICA-paper/'
 setwd(main_dir)
 source('code/0_setup.R')
 
@@ -16,63 +16,18 @@ make_images <- TRUE
 
 first_run <- FALSE
 
-###############################################################
-## COLLECT AND TRANSFER THE DATA
-###############################################################
-
 # Moved to 0_setup.R
 # fname_ts <- '_Atlas_hp2000_clean.dtseries.nii'
 # session_names <- c('rfMRI_REST1_LR','rfMRI_REST2_LR')
 # cifti_fnames<- file.path(session_names, paste0(session_names, fname_ts))
 # cifti_fnames <- file.path('MNINonLinear/Results', session_names, paste0(session_names, fname_ts)) 
 
-if(run_carbonate){
-  data_dir <- '/N/dcwan/projects/hcp' #as of June 2023 this data was moved to /N/project/hcp_dcwan but will eventually be retired
-  data_dir_local <- '/Volumes/Lab_Data_Drive/data/HCP_Resting_State'
-
-  ### RANDOMLY SELECT SUBJECTS FOR TRAINING AND TESTING
-
-  ## RUN THIS ON CARBONATE
-  library(stringr) #str_which
-  #select training and test subjects
-  all_subjects <- list.files(data_dir) #each subject is a directory
-  all_subjects <- all_subjects[nchar(all_subjects)==6] #subject IDs have 6 characters
-  all_subjects <- all_subjects[str_which(all_subjects, "[0-9]+")] #subject IDs are numeric
-  set.seed(782439)
-  samp_subjects <- sample(all_subjects, 501, replace = FALSE)
-  save(samp_subjects, file='subjects.RData')
-  load(file='subjects.RData') #samp_subjects
-
-  ### TRANSFER DATA FROM CARBONATE TO MAC PRO
-  for(ii in 1:501){
-    print(paste0('Subject ', ii))
-    subi <- samp_subjects[ii]
-    for(jj in 1:2){
-      print(jj)
-      dir_ij <- file.path(data_dir,subi,cifti_path[jj])
-      from_ij <- file.path(dir_ij, cifti_fnames[jj])
-      to_ij <- file.path(data_dir_local, paste0(subi,'_',cifti_fnames[jj]))
-      cmd <- paste0('scp afmejia@carbonate.uits.iu.edu:',from_ij,' ',to_ij)
-      system(cmd)
-    }
-  }
-
-  #count number of files for each subject
-  numfiles <- table(substr(list.files(data_dir_local), 1, 6))
-  #use subjects who have two scans
-  subjects_2scans <- names(numfiles)[which(numfiles==2)]
-
-  template_subjects <- subjects_2scans[1:(length(subjects_2scans)-1)]
-  test_subjects <- subjects_2scans[length(subjects_2scans)]
-  save(template_subjects, test_subjects, file='subjects2.RData')
-
-}
-
-nQ <- 25
 
 ###############################################################
 # ASSIGN ICs to CORTICAL NETWORKS
 ###############################################################
+
+nQ <- 25
 
 GICA_fname <- paste0('data/melodic_IC_',nQ,'.dscalar.nii')
 
@@ -580,31 +535,28 @@ ggplot(ICC_df2, aes(x=abs(temp_mean), y=ICC_diff_tICA, group=method, color=metho
   theme_few() + theme(legend.position='bottom')
 dev.off()
 
-### Explore residual autocorrelation
+load(file=paste0('data/IC_networks_ordered_25.RData')) #IC_order, badinds, network_ICs_df_ordered
+df25 <- network_ICs_df_ordered %>% group_by(network) %>% summarize(count25 = n())
 
-load(file.path(result_dir,paste0('result_subj5_sess1_VB1.RData')))
+# Generate tables for network IC assignments 
 
-Y <- result_ijq$BOLD
-A <- result_ijq$A
-S <- as.matrix(result_ijq$subjICmean)
-E <- Y - S %*% t(A)
+df <- df25
+df$count25[is.na(df$count25)] <- 0
 
-#just motor networks
-A_motor <- A[,8,drop=FALSE]
-S_motor <- t(solve(crossprod(A_motor)) %*% crossprod(A_motor, t(Y)))
-E_motor <- Y - S_motor %*% t(A_motor)
+#%# Creates Table E.1
+dfx <- xtable(df, digits=0)
+print(dfx, include.rownames=FALSE)
 
-#randomly select 100 voxels
-acf_df <- NULL
-set.seed(1234)
-rvox <- sample(1:18792, 100)
-for(k in 1:100){
-  v <- rvox[k]
-  acf_v <- acf(E[v,], plot=FALSE, lag.max=10)$acf
-  acf_motor_v <- acf(E_motor[v,], plot=FALSE, lag.max=10)$acf
-  acf_df_v <- data.frame(acf = c(acf_v, acf_motor_v), 
-                         model = rep(c('ICA','task'), each=11),
-                         lag = 0:10,
-                         voxel = v)
-  acf_df <- rbind(acf_df, acf_df_v)
-}
+#%# Creates Table E.2
+### Make full table of RSN assignments for paper
+# Q = 25
+df <- network_ICs_df_ordered[,2:1]
+dfx <- xtable(df, digits=0)
+print(dfx, include.rownames=FALSE)
+
+# Q = 100
+load(file=paste0('data/IC_networks_ordered_100.RData')) #IC_order, badinds, network_ICs_df_ordered
+network_ICs_df_ordered <- network_ICs_df_ordered[network_ICs_df_ordered$IC != 74,]
+df <- cbind(network_ICs_df_ordered[1:33,2:1],network_ICs_df_ordered[34:66,2:1],network_ICs_df_ordered[67:99,2:1])
+dfx <- xtable(df, digits=0)
+print(dfx, include.rownames=FALSE)

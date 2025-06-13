@@ -3,7 +3,7 @@
 ### then 3_collect_results will consolidate it into test_set_results.RData
 
 ### PART 2: VARY SCAN DURATION ---------------------------------------------
-main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
+main_dir <- '~/Documents/Github/FC-TemplateICA-paper/simulation/'
 setwd(main_dir)
 source('0_setup.R')
 

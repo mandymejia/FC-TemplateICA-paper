@@ -1,4 +1,4 @@
-main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
+main_dir <- '~/Documents/Github/FC-TemplateICA-paper/simulation/'
 setwd(main_dir)
 source('0_setup.R')
 

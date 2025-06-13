@@ -1,4 +1,4 @@
-main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
+main_dir <- '~/Documents/Github/FC-TemplateICA-paper/simulation/'
 setwd(main_dir)
 calling_script <- '5_longsim.R'
 source('0_setup.R')
@@ -12,6 +12,7 @@ first_run <- FALSE
 ICs <- c(1,3,4,2,16)
 Q <- length(ICs)
 
+# Uncomment to generate GICA from scratch
 # GICA_fname <- '../data/melodic_IC_25.dscalar.nii' 
 # GICA <- read_cifti(GICA_fname, brainstructures = c('left','right'), resamp_res = 10000)
 # GICA <- newdata_xifti(GICA, as.matrix(GICA)[,ICs])
@@ -44,7 +45,7 @@ if(first_run){
     }
   }
   saveRDS(subjICs, 'subjICs_longsim.RDS')
-} #&& Need to run to match
+}  
 
 if (!file.exists("subjICs_longsim.RDS")) piggyback::pb_download("subjICs_longsim.RDS", repo = "mandymejia/FC-TemplateICA-paper")
 subjICs <- readRDS('subjICs_longsim.RDS')

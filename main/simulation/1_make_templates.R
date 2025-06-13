@@ -1,4 +1,4 @@
-main_dir <- '~/Documents/Github/FC-TemplateICA-paper/main/simulation/'
+main_dir <- '~/Documents/Github/FC-TemplateICA-paper/simulation/'
 setwd(main_dir)
 source('0_setup.R')
 
@@ -186,7 +186,7 @@ if(first_run){
 
 if(first_run){
   #real fMRI data time courses based on dual regression
-  TCs <- readRDS('TCs_real/TCs.RDS') #TxQxn (n=subjects) -- 1113 sessions
+  TCs <- readRDS('TCs_real/TCs.RDS') #TxQxn (n=subjects) -- 1113 sessions # This file is generated in 00_get_TCs_HCP.R
   TCs <- TCs[,,!is.na(TCs[1,1,])] #exclude missing subjects -- 1068 sessions remaining
   TCs <- apply(TCs, c(2,3), base::scale) #make variance = 1 for identifiability
 
